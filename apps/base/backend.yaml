@@ -8,10 +8,10 @@ spec:
   source:
     repoURL: 'https://github.com/Umeshpoojariaws/gke-gitops-infra.git'
     targetRevision: HEAD
-    path: environments/base/backend # Generic path
+    path: environments/base/backend
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: default # Generic namespace
+    namespace: default
   syncPolicy:
     automated:
       prune: true
