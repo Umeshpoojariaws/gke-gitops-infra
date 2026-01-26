@@ -3,6 +3,8 @@ kind: Kustomization
 bases:
   - ../../base
 
+namePrefix: prod-
+
 patches:
 - target:
     kind: Application
