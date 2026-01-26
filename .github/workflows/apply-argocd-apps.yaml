@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  GCP_PROJECT_ID: devops-mlops-483223
+
 jobs:
   apply-apps:
     name: Apply ArgoCD Application Manifests
@@ -14,13 +17,14 @@ jobs:
       - name: Checkout GitOps Repo
         uses: actions/checkout@v3
 
+
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1
         with:
-          workload_identity_provider: 'projects/devops-mlops-483223/locations/global/workloadIdentityPools/argocd/providers/argocd'
-          service_account: 'gcp-ml-gke-sa@devops-mlops-483223.iam.gserviceaccount.com'
+          workload_identity_provider: 'projects/341840342072/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider' # Replace with output from terraform
+          service_account: 'gcp-ml-gke-sa@devops-mlops-483223.iam.gserviceaccount.com' # Replace with output from terraform
 
-      - name: Set up Cloud SDK
+      - name: Set up gcloud
         uses: google-github-actions/setup-gcloud@v1
 
       - name: Get GKE Credentials
