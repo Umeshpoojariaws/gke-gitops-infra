@@ -13,6 +13,9 @@ patches:
     - op: replace
       path: /spec/destination/namespace
       value: dev
+    - op: replace
+      path: /spec/source/path
+      value: environments/dev
 - target:
     kind: Application
     name: frontend
@@ -20,6 +23,9 @@ patches:
     - op: replace
       path: /spec/destination/namespace
       value: dev
+    - op: replace
+      path: /spec/source/path
+      value: environments/dev
 - target:
     kind: Application
     name: mlflow
@@ -27,6 +33,9 @@ patches:
     - op: replace
       path: /spec/destination/namespace
       value: dev
+    - op: replace
+      path: /spec/source/path
+      value: environments/dev
 - target:
     kind: Application
     name: training
@@ -34,3 +43,6 @@ patches:
     - op: replace
       path: /spec/destination/namespace
       value: dev
+    - op: replace
+      path: /spec/source/path
+      value: environments/dev

@@ -6,10 +6,19 @@ resources:
   - ../../base/frontend
   - ../../base/mlflow
   - ../../base/training
+  - ../base/training-trigger
 
 namespace: dev
 
-# This section is where your CI pipeline will update the image tags
+patches:
+  - target:
+      kind: ScaledJob
+      name: pubsub-training-job-scaler
+    patch: |-
+      - op: replace
+        path: /spec/jobTargetRef/template/spec/containers/0/env/1/value
+        value: http://mlflow.dev.svc.cluster.local:5000
+
 images:
 - name: DOCKER_REPO_URL/backend # Match the image name in the base deployment
   newTag: latest # CI will replace this with a Git SHA

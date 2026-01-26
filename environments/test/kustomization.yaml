@@ -6,8 +6,18 @@ resources:
   - ../../base/frontend
   - ../../base/mlflow
   - ../../base/training
+  - ../base/training-trigger
 
 namespace: test
+
+patches:
+  - target:
+      kind: ScaledJob
+      name: pubsub-training-job-scaler
+    patch: |-
+      - op: replace
+        path: /spec/jobTargetRef/template/spec/containers/0/env/1/value
+        value: http://mlflow.test.svc.cluster.local:5000
 
 # This section is where your CI pipeline will update the image tags
 images:
