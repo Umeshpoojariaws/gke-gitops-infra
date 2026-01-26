@@ -17,23 +17,27 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v4
 
       - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
+        uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: 'projects/341840342072/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider' # Replace with output from terraform
           service_account: 'gcp-ml-gke-sa@devops-mlops-483223.iam.gserviceaccount.com' # Replace with output from terraform
 
       - name: Set up gcloud
-        uses: google-github-actions/setup-gcloud@v1
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Get GKE Credentials
-        run: gcloud container clusters get-credentials main-cluster --region us-central1
+      - name: Get GKE credentials
+        uses: google-github-actions/get-gke-credentials@v1
+        with:
+          cluster_name: ${{ secrets.GKE_CLUSTER_NAME }}
+          location: ${{ secrets.GKE_CLUSTER_REGION }}
 
-      - name: Setup Kustomize
+      - name: Set up kustomize
         uses: imranismail/setup-kustomize@v2
 
-      - name: Apply ArgoCD Applications
+      - name: Apply Argo CD apps
         run: kubectl apply -k apps/
