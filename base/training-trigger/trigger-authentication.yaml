@@ -1,0 +1,7 @@
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: keda-trigger-auth-gcp
+spec:
+  podIdentity:
+    provider: gcp

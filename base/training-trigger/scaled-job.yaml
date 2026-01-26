@@ -1,0 +1,27 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledJob
+metadata:
+  name: pubsub-training-job-scaler
+spec:
+  jobTargetRef:
+    template:
+      spec:
+        serviceAccountName: training-job-sa
+        containers:
+          - name: training-job
+            image: training
+            env:
+            - name: MLFLOW_TRACKING_URI
+              value: http://mlflow.default.svc.cluster.local:5000
+        restartPolicy: Never
+  pollingInterval: 30
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  triggers:
+    - type: gcp-pubsub
+      metadata:
+        subscriptionName: "training-triggers-sub"
+        mode: "Subscription"
+        value: "1"
+      authenticationRef:
+        name: keda-trigger-auth-gcp

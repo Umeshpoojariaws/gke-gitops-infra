@@ -15,16 +15,13 @@ spec:
       labels:
         app: backend
     spec:
-      serviceAccountName: backend-ksa
+      serviceAccountName: backend-sa
       containers:
-        - name: backend
-          image: DOCKER_REPO_URL/backend:latest # This will be updated by CI
-          ports:
-            - containerPort: 8080
-          env:
-            - name: MLFLOW_TRACKING_URI
-              value: 'http://mlflow.dev.svc.cluster.local:5000'
-          resources:
+      - name: backend
+        image: backend
+        ports:
+        - containerPort: 8000
+        resources:
             limits:
               memory: '512Mi'
               cpu: '500m'

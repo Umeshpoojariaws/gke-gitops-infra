@@ -6,7 +6,7 @@ resources:
   - ../../base/frontend
   - ../../base/mlflow
   - ../../base/training
-  - ../base/training-trigger
+  - ../../base/training-trigger
 
 namespace: dev
 
@@ -16,13 +16,16 @@ patches:
       name: pubsub-training-job-scaler
     patch: |-
       - op: replace
-        path: /spec/jobTargetRef/template/spec/containers/0/env/1/value
+        path: /spec/jobTargetRef/template/spec/containers/0/env/0/value
         value: http://mlflow.dev.svc.cluster.local:5000
 
 images:
-- name: DOCKER_REPO_URL/backend # Match the image name in the base deployment
-  newTag: latest # CI will replace this with a Git SHA
-- name: DOCKER_REPO_URL/frontend
+- name: backend
+  newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/backend
   newTag: latest
-- name: DOCKER_REPO_URL/training
+- name: frontend
+  newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/frontend
+  newTag: latest
+- name: training
+  newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training
   newTag: latest
