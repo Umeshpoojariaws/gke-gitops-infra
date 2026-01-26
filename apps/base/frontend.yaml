@@ -1,20 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mlflow
+  name: frontend
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    # This MUST point to your gke-gitops-infra repository URL
     repoURL: 'https://github.com/Umeshpoojariaws/gke-gitops-infra.git'
     targetRevision: HEAD
-    path: environments/dev
+    path: environments/base/frontend # Generic path
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: dev
+    namespace: default # Generic namespace
   syncPolicy:
     automated:
       prune: true

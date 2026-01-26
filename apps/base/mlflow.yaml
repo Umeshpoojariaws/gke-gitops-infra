@@ -1,20 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: backend
+  name: mlflow
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    # This MUST point to your gke-gitops-infra repository URL
     repoURL: 'https://github.com/Umeshpoojariaws/gke-gitops-infra.git'
     targetRevision: HEAD
-    path: environments/dev # Argo CD will use the kustomization.yaml in this path
+    path: environments/base/mlflow # Generic path
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: dev
+    namespace: default # Generic namespace
   syncPolicy:
     automated:
       prune: true
