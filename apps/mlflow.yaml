@@ -8,7 +8,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/Umeshpoojariaws/gke-gitops-infra.git' # <-- IMPORTANT: Replace with your GitOps repo URL
+    # This MUST point to your gke-gitops-infra repository URL
+    repoURL: 'https://github.com/Umeshpoojariaws/gke-gitops-infra.git'
     targetRevision: HEAD
     path: environments/dev
   destination:

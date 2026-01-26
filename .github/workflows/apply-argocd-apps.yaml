@@ -1,0 +1,33 @@
+name: Apply ArgoCD Applications
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  apply-apps:
+    name: Apply ArgoCD Application Manifests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout GitOps Repo
+        uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: 'projects/devops-mlops-483223/locations/global/workloadIdentityPools/argocd/providers/argocd'
+          service_account: 'gcp-ml-gke-sa@devops-mlops-483223.iam.gserviceaccount.com'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Get GKE Credentials
+        run: gcloud container clusters get-credentials main-cluster --region us-central1
+
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v2
+
+      - name: Apply ArgoCD Applications
+        run: kubectl apply -k apps/
