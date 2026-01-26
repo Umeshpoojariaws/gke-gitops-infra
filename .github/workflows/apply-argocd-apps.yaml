@@ -10,11 +10,13 @@ env:
 
 jobs:
   apply-apps:
-    name: Apply ArgoCD Application Manifests
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
 
     steps:
-      - name: Checkout GitOps Repo
+      - name: Checkout
         uses: actions/checkout@v3
 
 
