@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: dev
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      serviceAccountName: backend-ksa
+      containers:
+        - name: backend
+          image: DOCKER_REPO_URL/backend:latest # This will be updated by CI
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MLFLOW_TRACKING_URI
+              value: 'http://mlflow.dev.svc.cluster.local:5000'
+          resources:
+            limits:
+              memory: '512Mi'
+              cpu: '500m'
+            requests:
+              memory: '256Mi'
+              cpu: '250m'

@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: frontend
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/Umeshpoojariaws/gke-gitops-infra.git' # <-- IMPORTANT: Replace with your GitOps repo URL
+    targetRevision: HEAD
+    path: environments/dev
+    kustomize:
+      images:
+        - DOCKER_REPO_URL/frontend:latest
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
