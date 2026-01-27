@@ -15,7 +15,7 @@ patches:
       name: pubsub-training-job-scaler
     patch: |-
       - op: replace
-        path: /spec/jobTargetRef/template/spec/containers/0/env/1/value
+        path: /spec/jobTargetRef/template/spec/containers/0/env/0/value
         value: http://mlflow.prod.svc.cluster.local:5000
 
 # The images section will be managed by the update_tags.sh script
