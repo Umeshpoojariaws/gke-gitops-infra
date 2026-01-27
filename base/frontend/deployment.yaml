@@ -17,5 +17,4 @@ spec:
         image: frontend
         ports:
         - containerPort: 3000
-        resources:
-        - containerPort: 8501
+        resources: {}
