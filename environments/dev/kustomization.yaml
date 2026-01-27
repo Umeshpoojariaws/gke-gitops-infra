@@ -2,21 +2,26 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../base/backend
-  - ../../base/frontend
-  - ../../base/mlflow
-  - ../../base/training-trigger
+- ../../base/backend
+- ../../base/frontend
+- ../../base/mlflow
+- ../../base/training-trigger
 
 namespace: dev
 
 patches:
-  - target:
-      kind: ScaledJob
-      name: pubsub-training-job-scaler
-    patch: |-
-      - op: replace
-        path: /spec/jobTargetRef/template/spec/containers/0/env/0/value
-        value: http://mlflow.dev.svc.cluster.local:5000
-        
-
-# The images section will be managed by the update_tags.sh script
+- patch: "- op: replace\n  path: /spec/jobTargetRef/template/spec/containers/0/env/0/value\n
+    \ value: http://mlflow.dev.svc.cluster.local:5000\n  "
+  target:
+    kind: ScaledJob
+    name: pubsub-training-job-scaler
+images:
+- name: backend
+  newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/backend
+  newTag: 1.0.0
+- name: frontend
+  newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/frontend
+  newTag: 1.0.0
+- name: training
+  newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training
+  newTag: 1.0.0
