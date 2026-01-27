@@ -1,55 +1,49 @@
-name: Apply ArgoCD Applications
+name: Apply Argo CD Applications
 
 on:
   push:
     branches:
       - main
-
-env:
-  GCP_PROJECT_ID: devops-mlops-483223
+    paths:
+      - 'environments/**/image_tags.properties' # Trigger only when tags change
+  workflow_dispatch:
 
 jobs:
   apply-apps:
     runs-on: ubuntu-latest
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+        with:
+          # We need to fetch the history to push back to the repo
+          fetch-depth: 0
 
       - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@v1
         with:
-          workload_identity_provider: 'projects/341840342072/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider' # Replace with output from terraform
-          service_account: 'gcp-ml-gke-sa@devops-mlops-483223.iam.gserviceaccount.com' # Replace with output from terraform
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
 
-      - name: Set up gcloud
-        uses: google-github-actions/setup-gcloud@v2
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v1
         with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          kustomize-version: "v4.5.7"
 
-      - name: Get GKE credentials
-        uses: google-github-actions/get-gke-credentials@v1
-        with:
-          cluster_name: ${{ secrets.GKE_CLUSTER_NAME }}
-          location: ${{ secrets.GKE_CLUSTER_REGION }}
+      - name: Update Image Tags in Kustomize Overlays
+        run: |
+          ./update_tags.sh dev
+          ./update_tags.sh test
+          ./update_tags.sh prod
 
-      - name: Update Dev Image Tags
-        run: ./update_tags.sh dev
-
-      - name: Apply Dev Argo CD apps
-        run: kubectl apply -k apps/overlays/dev
-
-      - name: Update Test Image Tags
-        run: ./update_tags.sh test
-
-      - name: Apply Test Argo CD apps
-        run: kubectl apply -k apps/overlays/test
-
-      - name: Update Prod Image Tags
-        run: ./update_tags.sh prod
-        
-      - name: Apply Prod Argo CD apps
-        run: kubectl apply -k apps/overlays/prod
+      - name: Commit and Push Kustomize Changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add environments/**/kustomization.yaml
+          # Check if there are changes to commit
+          if ! git diff --staged --quiet; then
+            git commit -m "ci: Update image tags in Kustomize overlays"
+            git push
+          else
+            echo "No image tag changes to commit."
+          fi
