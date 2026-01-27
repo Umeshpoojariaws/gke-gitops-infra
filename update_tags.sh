@@ -51,7 +51,7 @@ while IFS='=' read -r key value; do
 
   # The DOCKER_REPO_URL should be replaced with your actual Docker repository URL
   # This could also be sourced from an environment variable.
-  DOCKER_REPO_URL="DOCKER_REPO_URL"
+  DOCKER_REPO_URL="us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo"
 
   FULL_IMAGE_NAME="$DOCKER_REPO_URL/$IMAGE_NAME"
   TAG="$value"

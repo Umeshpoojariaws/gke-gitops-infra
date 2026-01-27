@@ -33,14 +33,23 @@ jobs:
       - name: Get GKE credentials
         uses: google-github-actions/get-gke-credentials@v1
         with:
-          cluster_name: ${{ secrets.GKE_CLUSTER_NAME }}
-          location: ${{ secrets.GKE_CLUSTER_REGION }}
+          cluster_name: ${{ secrets.GKE_CLUSTER }}
+          location: ${{ secrets.GKE_LOCATION }}
 
-      - name: Set up kustomize
-        uses: imranismail/setup-kustomize@v2
+      - name: Update Dev Image Tags
+        run: ./update_tags.sh dev
 
-      - name: Apply Argo CD apps
-        run: |
-          kubectl apply -k apps/overlays/dev
-          kubectl apply -k apps/overlays/test
-          kubectl apply -k apps/overlays/prod
+      - name: Apply Dev Argo CD apps
+        run: kubectl apply -k apps/overlays/dev
+
+      - name: Update Test Image Tags
+        run: ./update_tags.sh test
+
+      - name: Apply Test Argo CD apps
+        run: kubectl apply -k apps/overlays/test
+
+      - name: Update Prod Image Tags
+        run: ./update_tags.sh prod
+        
+      - name: Apply Prod Argo CD apps
+        run: kubectl apply -k apps/overlays/prod
