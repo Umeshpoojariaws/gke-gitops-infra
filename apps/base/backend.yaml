@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/Umeshpoojariaws/gke-gitops-infra.git'
+    repoURL: 'https://github.com/Umeshpoojariaws/gke-gitops-infra' # <-- REMOVED .git
     targetRevision: HEAD
     path: base/backend
   destination:
