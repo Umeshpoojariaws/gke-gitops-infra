@@ -18,13 +18,4 @@ patches:
         path: /spec/jobTargetRef/template/spec/containers/0/env/1/value
         value: http://mlflow.prod.svc.cluster.local:5000
 
-images:
-  - name: backend
-    newName: DOCKER_REPO_URL/backend
-    newTag: latest
-  - name: frontend
-    newName: DOCKER_REPO_URL/frontend
-    newTag: latest
-  - name: training
-    newName: DOCKER_REPO_URL/training
-    newTag: latest
+# The images section will be managed by the update_tags.sh script

@@ -17,14 +17,8 @@ patches:
       - op: replace
         path: /spec/jobTargetRef/template/spec/containers/0/env/0/value
         value: http://mlflow.dev.svc.cluster.local:5000
+      - op: replace
+        path: /spec/jobTargetRef/template/spec/containers/0/env/1/value
+        value: http://mlflow.dev.svc.cluster.local:5000
 
-images:
-- name: backend
-  newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/backend
-  newTag: latest
-- name: frontend
-  newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/frontend
-  newTag: latest
-- name: training
-  newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training
-  newTag: latest
+# The images section will be managed by the update_tags.sh script
