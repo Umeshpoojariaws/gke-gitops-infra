@@ -19,6 +19,13 @@ spec:
         image: ghcr.io/mlflow/mlflow:latest
         ports:
         - containerPort: 5000
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
         env:
         - name: MLFLOW_ENABLE_PROXY_FIX
           value: "true"
