@@ -4,19 +4,12 @@ kind: Kustomization
 resources:
 - ../../base/backend
 - ../../base/frontend
-- ../../base/mlflow
-- ../../base/training-trigger
 
 namespace: prod
 
-patches:
-- patch: |-
-    - op: replace
-      path: /spec/jobTargetRef/template/spec/containers/0/env/0/value
-      value: http://mlflow.prod.svc.cluster.local:5000
-  target:
-    kind: ScaledJob
-    name: pubsub-training-job-scaler
+# The 'patches' section has been removed as it targeted the training-trigger,
+# which is no longer deployed to production.
+
 images:
 - name: backend
   newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/backend
