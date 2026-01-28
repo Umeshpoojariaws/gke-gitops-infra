@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'environments/**/image_tags.properties' # Trigger only when tags change
   workflow_dispatch:
 
 jobs:
@@ -26,6 +24,16 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
           service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Get GKE credentials
+        uses: google-github-actions/get-gke-credentials@v1
+        with:
+          cluster_name: ${{ secrets.GKE_CLUSTER_NAME }}
+          location: ${{ secrets.GKE_LOCATION }}
+
+      - name: Apply ArgoCD ApplicationSet
+        run: |
+          kubectl apply -f argocd/environment-appset.yaml -n argocd
 
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v1

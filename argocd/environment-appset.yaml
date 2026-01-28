@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: environment-appset
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/Umeshpoojariaws/gke-gitops-infra.git
+      revision: HEAD
+      # Find all subdirectories under apps/overlays
+      directories:
+      # Only generate an application for the 'dev' environment
+      - path: apps/overlays/dev
+  template:
+    metadata:
+      # The application name will be the directory name (e.g., "dev")
+      name: '{{path.basename}}'
+      namespace: argocd
+    spec:
+      project: "default"
+      source:
+        repoURL: https://github.com/Umeshpoojariaws/gke-gitops-infra.git
+        targetRevision: HEAD
+        # The path for this specific application is the one found by the generator
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        # The destination namespace will also be the directory name
+        namespace: '{{path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
