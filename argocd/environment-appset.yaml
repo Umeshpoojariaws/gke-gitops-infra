@@ -12,6 +12,7 @@ spec:
       directories:
       # Only generate an application for the 'dev' environment
       - path: apps/overlays/dev
+      - path: apps/overlays/test
   template:
     metadata:
       # The application name will be the directory name (e.g., "dev")
