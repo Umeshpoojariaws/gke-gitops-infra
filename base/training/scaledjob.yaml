@@ -1,0 +1,32 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledJob
+metadata:
+  name: training
+spec:
+  jobTargetRef:
+    template:
+      spec:
+        # This is the crucial link to Workload Identity
+        serviceAccountName: training-job-ksa
+        containers:
+        - name: training
+          image: DOCKER_REPO_URL/training:latest # This will be updated by CI
+          env:
+          - name: MLFLOW_TRACKING_URI
+            # Note: This will need to be patched for each environment
+            value: "http://mlflow.dev.svc.cluster.local:5000"
+        restartPolicy: Never
+  pollingInterval: 30  # How often to check the queue (in seconds)
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  maxReplicaCount: 10 # Max number of concurrent training jobs
+  triggers:
+  - type: gcp-pubsub
+    metadata:
+      # These values will be created in the next steps
+      subscriptionName: "training-subscription"
+      # This is the name of the KEDA TriggerAuthentication resource
+      # that will provide credentials to access Pub/Sub.
+      credentialsFromEnv: GOOGLE_APPLICATION_CREDENTIALS
+    authenticationRef:
+      name: keda-trigger-auth-gcp
