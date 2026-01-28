@@ -26,23 +26,3 @@ patches:
     - op: replace
       path: /spec/source/path
       value: environments/prod
-- target:
-    kind: Application
-    name: mlflow
-  patch: |-
-    - op: replace
-      path: /spec/destination/namespace
-      value: prod
-    - op: replace
-      path: /spec/source/path
-      value: environments/prod
-- target:
-    kind: Application
-    name: training
-  patch: |-
-    - op: replace
-      path: /spec/destination/namespace
-      value: prod
-    - op: replace
-      path: /spec/source/path
-      value: environments/prod
