@@ -17,4 +17,10 @@ spec:
         image: frontend
         ports:
         - containerPort: 3000
-        resources: {}
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
