@@ -1,5 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - scaledjob.yaml
-  - trigger-authentication.yaml
+  - job.yaml
+
+images:
+- name: us-central1-docker.pkg.dev/PROJECT_ID/ml-apps/training
+  # The newTag will be updated by the CI/CD pipeline via the image_tags.properties file
+  newTag: 0.0.1 # This is a default and will be overwritten
