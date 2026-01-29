@@ -16,5 +16,5 @@ spec:
         - name: MLFLOW_TRACKING_URI
           value: http://mlflow.dev.svc.cluster.local:5000
       restartPolicy: Never
-  backoffLimit: 4
-  ttlSecondsAfterFinished: 100
+  backoffLimit: 2
+  ttlSecondsAfterFinished: 300
