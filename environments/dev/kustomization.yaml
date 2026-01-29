@@ -18,7 +18,7 @@ patches:
 images:
 - name: backend
   newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/backend
-  newTag: 1.0.0
+  newTag: 0.0.1
 - name: frontend
   newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/frontend
   newTag: 1.0.0
