@@ -1,16 +1,20 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: training-job
+  generateName: training-job-
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
 spec:
   template:
     spec:
+      serviceAccountName: training-job-sa
       containers:
-      - name: training
-        image: training
+      - name: training-job
+        image: training # Kustomize will replace this
         env:
         - name: MLFLOW_TRACKING_URI
-          value: "http://mlflow.dev.svc.cluster.local:5000"
+          value: http://mlflow.dev.svc.cluster.local:5000
       restartPolicy: Never
   backoffLimit: 4
-  ttlSecondsAfterFinished: 86400
+  ttlSecondsAfterFinished: 100
