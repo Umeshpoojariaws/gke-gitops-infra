@@ -21,7 +21,7 @@ images:
   newTag: 0.0.2
 - name: frontend
   newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/frontend
-  newTag: 1.0.0
+  newTag: 0.0.2
 - name: training
   newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training
   newTag: 1.0.0
