@@ -11,7 +11,7 @@ spec:
       # Find all subdirectories under apps/overlays
       directories:
       # Only generate an application for the 'dev' environment
-      - path: apps/overlays/dev
+      # - path: apps/overlays/dev
       - path: apps/overlays/test
       - path: apps/overlays/prod
   template:
