@@ -43,6 +43,14 @@ patches:
     - op: replace
       path: /spec/destination/namespace
       value: dev
+    # The source path should NOT be replaced. It correctly points to base/training.
+    # - op: replace
+    #   path: /spec/source/path
+    #   value: environments/dev
+- target:
+    kind: Application
+    name: keda
+  patch: |-
     - op: replace
-      path: /spec/source/path
-      value: environments/dev
+      path: /spec/destination/namespace
+      value: dev
