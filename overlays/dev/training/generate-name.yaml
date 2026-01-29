@@ -1,0 +1,6 @@
+- op: replace
+  path: /metadata/name
+  value: training-job-
+- op: add
+  path: /metadata/generateName
+  value: training-job-

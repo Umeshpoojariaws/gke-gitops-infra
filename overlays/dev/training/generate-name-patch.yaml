@@ -1,0 +1,5 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: training-job # This name must match the base
+  generateName: training-job-

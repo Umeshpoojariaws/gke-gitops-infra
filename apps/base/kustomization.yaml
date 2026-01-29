@@ -4,5 +4,5 @@ resources:
   - backend.yaml
   - frontend.yaml
   - mlflow.yaml
-  - training.yaml
+  # - training.yaml # This line must be removed or commented out
   - keda.yaml

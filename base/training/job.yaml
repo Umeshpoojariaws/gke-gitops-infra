@@ -1,20 +1,16 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  # Using generateName creates a unique job on every sync, e.g., training-job-xxxxx
-  # This is the key to allowing CI/CD to trigger new runs.
-  generateName: training-job-
+  name: training-job
 spec:
   template:
     spec:
       containers:
       - name: training
-        # This full image path will be managed by Kustomize
-        image: us-central1-docker.pkg.dev/PROJECT_ID/ml-apps/training:latest
+        image: us-central1-docker.pkg.dev/PROJECT_ID/ml-apps/training
         env:
         - name: MLFLOW_TRACKING_URI
           value: "http://mlflow.dev.svc.cluster.local:5000"
       restartPolicy: Never
   backoffLimit: 4
-  # This is a good practice: it automatically cleans up the completed job and its pod after 1 day.
   ttlSecondsAfterFinished: 86400
