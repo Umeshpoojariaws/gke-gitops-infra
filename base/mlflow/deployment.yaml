@@ -26,9 +26,6 @@ spec:
           limits:
             memory: "1Gi"
             cpu: "500m"
-        env:
-        - name: MLFLOW_ENABLE_PROXY_FIX
-          value: "true"
         command: ["/bin/sh", "-c"]
         args:
           - |
