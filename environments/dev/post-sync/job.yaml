@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   generateName: training-job-
+  namespace: dev # Important: Specify the namespace directly
   annotations:
     argocd.argoproj.io/hook: Sync
     argocd.argoproj.io/hook-delete-policy: HookSucceeded
@@ -11,7 +12,8 @@ spec:
       serviceAccountName: training-job-sa
       containers:
       - name: training-job
-        image: training # Kustomize will replace this
+        # The image will be replaced by the image updater
+        image: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training:0.0.1
         env:
         - name: MLFLOW_TRACKING_URI
           value: http://mlflow.dev.svc.cluster.local:5000

@@ -8,25 +8,30 @@ spec:
   - git:
       repoURL: https://github.com/Umeshpoojariaws/gke-gitops-infra.git
       revision: HEAD
-      # Find all subdirectories under 'environments'
       directories:
-      # Generate an application for the 'dev' environment
       - path: environments/dev
   template:
     metadata:
-      # The application name will be the directory name (e.g., "dev")
       name: '{{path.basename}}'
       namespace: argocd
     spec:
       project: "default"
-      source:
-        repoURL: https://github.com/Umeshpoojariaws/gke-gitops-infra.git
-        targetRevision: HEAD
-        # The path for this specific application is the one found by the generator
-        path: '{{path}}'
+      # Use multiple sources
+      sources:
+        # Source 1: The Kustomize configuration for the environment
+        - repoURL: https://github.com/Umeshpoojariaws/gke-gitops-infra.git
+          targetRevision: HEAD
+          path: '{{path}}'
+          kustomize:
+            namePrefix: dev-
+        # Source 2: The raw YAML for the post-sync Job
+        - repoURL: https://github.com/Umeshpoojariaws/gke-gitops-infra.git
+          targetRevision: HEAD
+          path: '{{path}}/post-sync'
+          directory:
+            recurse: true
       destination:
         server: https://kubernetes.default.svc
-        # The destination namespace will also be the directory name
         namespace: '{{path.basename}}'
       syncPolicy:
         automated:

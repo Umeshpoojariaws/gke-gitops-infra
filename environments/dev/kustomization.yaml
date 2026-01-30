@@ -5,16 +5,9 @@ resources:
 - ../../base/backend
 - ../../base/frontend
 - ../../base/mlflow
-- ../../base/training
 
 namespace: dev
 
-patches:
-- patch: "- op: replace\n  path: /spec/jobTargetRef/template/spec/containers/0/env/0/value\n
-    \ value: http://mlflow.dev.svc.cluster.local:5000\n  "
-  target:
-    kind: ScaledJob
-    name: pubsub-training-job-scaler
 images:
 - name: backend
   newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/backend
@@ -22,6 +15,3 @@ images:
 - name: frontend
   newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/frontend
   newTag: 0.0.2
-- name: training
-  newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training
-  newTag: 0.0.1
