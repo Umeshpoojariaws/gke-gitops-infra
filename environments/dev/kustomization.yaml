@@ -3,8 +3,9 @@ kind: Kustomization
 
 resources:
 - ../../base/backend
-- ../../base/frontend
 - ../../base/mlflow
+- ../../base/frontend
+- post-sync/job.yaml
 
 namespace: dev
 
@@ -17,4 +18,8 @@ images:
   newTag: 0.0.2
 - name: training
   newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training
+<<<<<<< HEAD
   newTag: 0.0.5
+=======
+  newTag: 0.0.5
+>>>>>>> 0d185ad (fixing argocd jobs issue)
