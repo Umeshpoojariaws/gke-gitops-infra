@@ -13,7 +13,7 @@ spec:
       containers:
       - name: training-job
         # The image will be replaced by the image updater
-        image: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training:0.0.2
+        image: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training:0.0.1
         env:
         - name: MLFLOW_TRACKING_URI
           value: http://mlflow.dev.svc.cluster.local:5000
