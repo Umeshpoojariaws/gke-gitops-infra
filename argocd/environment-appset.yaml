@@ -23,6 +23,10 @@ spec:
           path: '{{path}}'
           kustomize:
             namePrefix: dev-
+        # Source 2: The raw YAML for the post-sync Job
+        - repoURL: https://github.com/Umeshpoojariaws/gke-gitops-infra.git
+          targetRevision: HEAD
+          path: '{{path}}/post-sync'
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{path.basename}}'
