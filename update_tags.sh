@@ -61,6 +61,22 @@ while IFS='=' read -r key value; do
   # Use kustomize edit to set the image. This will add or update the entry.
   (cd "$ENV_DIR" && kustomize edit set image "$IMAGE_NAME=$FULL_IMAGE_NAME:$TAG")
 
+  # ==> ADD THIS BLOCK TO FIX THE TRAINING JOB <==
+  # If the image is the training image, also update the post-sync job manifest directly.
+  if [ "$IMAGE_NAME" == "training" ]; then
+    JOB_FILE="$ENV_DIR/post-sync/job.yaml"
+    if [ -f "$JOB_FILE" ]; then
+      echo "Updating post-sync job manifest at $JOB_FILE"
+      # Use sed to replace the image line. This is more robust than simple find/replace.
+      # It looks for the line containing "image: us-central1-docker.pkg.dev/.../training:" and replaces it.
+      sed -i.bak "s|image: ${DOCKER_REPO_URL}/training:.*|image: ${FULL_IMAGE_NAME}:${TAG}|g" "$JOB_FILE"
+      rm "${JOB_FILE}.bak" # Clean up the backup file created by sed
+    else
+      echo "Warning: Job file not found at $JOB_FILE"
+    fi
+  fi
+  # ==> END OF NEW BLOCK <==
+
 done < "$PROPERTIES_FILE"
 
 echo "Successfully updated tags in $KUSTOMIZATION_FILE"
