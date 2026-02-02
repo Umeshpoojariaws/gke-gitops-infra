@@ -5,7 +5,7 @@ resources:
 - ../../base/backend
 - ../../base/mlflow
 - ../../base/frontend
-- post-sync
+# - post-sync
 
 namespace: dev
 
