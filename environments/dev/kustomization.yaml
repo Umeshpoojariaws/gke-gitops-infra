@@ -4,8 +4,7 @@ kind: Kustomization
 resources:
 - ../../base/backend
 - ../../base/mlflow
-- ../../base/frontend
-# - post-sync
+- ../../base-frontend
 
 namespace: dev
 
@@ -18,4 +17,4 @@ images:
   newTag: 0.0.2
 - name: training
   newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training
-  newTag: 0.0.1
+  newTag: 0.0.5
