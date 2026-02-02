@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
 - ../../base/backend
 - ../../base/mlflow
-- ../../base-frontend
+- ../../base/frontend
 
 namespace: dev
 
