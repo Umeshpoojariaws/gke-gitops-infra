@@ -21,6 +21,9 @@ spec:
         image: backend
         ports:
         - containerPort: 8000
+        env:
+        - name: MLFLOW_TRACKING_URI
+          value: "http://mlflow.dev.svc.cluster.local:5000"
         resources:
             limits:
               memory: '512Mi'
