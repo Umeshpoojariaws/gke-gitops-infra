@@ -9,9 +9,9 @@ resources:
 namespace: dev
 
 configMapGenerator:
-- name: frontend-config
-  literals:
+- literals:
   - BACKEND_URL=http://backend:8000
+  name: frontend-config
 
 images:
 - name: backend
