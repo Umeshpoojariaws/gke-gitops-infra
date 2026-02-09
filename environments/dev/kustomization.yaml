@@ -8,6 +8,11 @@ resources:
 
 namespace: dev
 
+configMapGenerator:
+- name: frontend-config
+  literals:
+  - BACKEND_URL=http://backend:8000
+
 images:
 - name: backend
   newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/backend
