@@ -9,9 +9,12 @@ resources:
 namespace: dev
 
 configMapGenerator:
-- literals:
+- name: frontend-config
+  literals:
   - BACKEND_URL=http://backend:8000
-  name: frontend-config
+- name: backend-config
+  literals:
+  - MLFLOW_TRACKING_URI=http://mlflow:5000
 
 images:
 - name: backend
