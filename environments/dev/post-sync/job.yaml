@@ -14,6 +14,8 @@ spec:
       - name: training-job
         # The image will be replaced by the image updater
         image: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training:0.1.6
+        command: ["/bin/sh", "-c"]
+        args: ["python train.py && python validate_and_promote.py"]
         env:
         - name: MLFLOW_TRACKING_URI
           value: http://mlflow.dev.svc.cluster.local:5000
