@@ -25,4 +25,4 @@ images:
   newTag: 0.0.7
 - name: training
   newName: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training
-  newTag: 0.1.8
+  newTag: 0.1.9
