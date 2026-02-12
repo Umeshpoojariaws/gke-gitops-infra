@@ -75,6 +75,20 @@ while IFS='=' read -r key value; do
       echo "Warning: Job file not found at $JOB_FILE"
     fi
   fi
+
+  # ==> ADD THIS BLOCK TO FIX THE MONITORING CRON JOB <==
+  if [ "$IMAGE_NAME" == "training" ]; then
+    CRON_JOB_FILE="$ENV_DIR/monitoring/cronjob.yaml"
+    if [ -f "$JOB_FILE" ]; then
+      echo "Updating monitoring job manifest at $CRON_JOB_FILE"
+      # Use sed to replace the image line. This is more robust than simple find/replace.
+      # It looks for the line containing "image: us-central1-docker.pkg.dev/.../training:" and replaces it.
+      sed -i.bak "s|image: ${DOCKER_REPO_URL}/training:.*|image: ${FULL_IMAGE_NAME}:${TAG}|g" "$JOB_FILE"
+      rm "${CRON_JOB_FILE}.bak" # Clean up the backup file created by sed
+    else
+      echo "Warning: Job file not found at $CRON_JOB_FILE"
+    fi
+  fi
   # ==> END OF NEW BLOCK <==
 
 done < "$PROPERTIES_FILE"
