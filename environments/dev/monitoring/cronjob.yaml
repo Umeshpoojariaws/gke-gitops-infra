@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: model-monitoring-cronjob
+  namespace: dev
+spec:
+  # Run once every day at midnight UTC
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: training-job-sa
+          containers:
+          - name: monitoring-job
+            # We use the same image as the training job since it has all dependencies
+            image: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training:0.1.9 # Make sure this image tag is updated by your CI/CD
+            command: ["python", "monitor_model.py"]
+            env:
+            - name: MLFLOW_TRACKING_URI
+              value: http://mlflow.dev.svc.cluster.local:5000
+          restartPolicy: OnFailure
+      backoffLimit: 2
+      ttlSecondsAfterFinished: 3600 # Keep job logs for 1 hour
