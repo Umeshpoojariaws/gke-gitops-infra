@@ -14,7 +14,7 @@ spec:
           containers:
           - name: monitoring-job
             # We use the same image as the training job since it has all dependencies
-            image: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training:0.2.6
+            image: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training:0.0.1
             imagePullPolicy: Always
             command: ["python", "monitor_model.py"]
             env:
