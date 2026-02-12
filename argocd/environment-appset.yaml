@@ -25,6 +25,10 @@ spec:
         - repoURL: https://github.com/Umeshpoojariaws/gke-gitops-infra.git
           targetRevision: HEAD
           path: '{{path}}/post-sync'
+        # Source 3: The raw YAML for the monitoring CronJob
+        - repoURL: https://github.com/Umeshpoojariaws/gke-gitops-infra.git
+          targetRevision: HEAD
+          path: '{{path}}/monitoring'
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{path.basename}}'
