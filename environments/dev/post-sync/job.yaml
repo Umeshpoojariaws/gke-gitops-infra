@@ -13,7 +13,7 @@ spec:
       containers:
       - name: training-job
         # The image will be replaced by the image updater
-        image: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training:0.0.10
+        image: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training:0.0.11
         command: ["/bin/sh", "-c"]
         args: ["python train.py && python validate_and_promote.py"]
         env:
