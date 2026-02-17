@@ -1,0 +1,24 @@
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: "backend"
+  namespace: "dev"
+spec:
+  predictor:
+    minReplicas: 1 # We start with 1 replica, but KServe can scale this down to 0 if configured.
+    serviceAccountName: backend-ksa
+    containers:
+    - name: "kserve-container" # The container must be named kserve-container
+      image: backend # Kustomize will replace this
+      ports:
+      - containerPort: 8000
+      envFrom:
+      - configMapRef:
+          name: backend-config
+      resources:
+        limits:
+          memory: '512Mi'
+          cpu: '500m'
+        requests:
+          memory: '256Mi'
+          cpu: '250m'
