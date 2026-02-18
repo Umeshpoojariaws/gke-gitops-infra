@@ -12,9 +12,9 @@ configMapGenerator:
 - literals:
   - BACKEND_URL=http://backend:8000
   name: frontend-config
-- name: backend-config
-  literals:
+- literals:
   - MLFLOW_TRACKING_URI=http://mlflow:5000
+  name: backend-config
   options:
     disableNameSuffixHash: true
 
