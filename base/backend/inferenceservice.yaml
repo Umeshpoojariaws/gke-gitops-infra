@@ -3,6 +3,8 @@ kind: "InferenceService"
 metadata:
   name: "backend"
   namespace: "dev"
+  annotations:
+    serving.kserve.io/visibility: cluster-local
 spec:
   predictor:
     minReplicas: 1 # We start with 1 replica, but KServe can scale this down to 0 if configured.
