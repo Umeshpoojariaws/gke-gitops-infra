@@ -5,6 +5,7 @@ resources:
 - ../../base/backend
 - ../../base/mlflow
 - ../../base/frontend
+- ../../base/kserve-config
 
 namespace: dev
 
