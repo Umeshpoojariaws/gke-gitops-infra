@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: training-job
+  namespace: dev
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      serviceAccountName: training-job-sa
+      containers:
+      - name: training-job
+        image: us-central1-docker.pkg.dev/devops-mlops-483223/ml-repo/training
+        command: ["/bin/sh", "-c"]
+        # This command sequence ensures data is pulled, training runs, then validation, and only promotes on success
+        args: ["dvc pull && python train.py && python validate_and_promote.py"]
+        envFrom:
+          - configMapRef:
+              name: backend-config # Contains MLFLOW_TRACKING_URI and other shared env vars
+      restartPolicy: Never
+  backoffLimit: 2
+  ttlSecondsAfterFinished: 3600 # Increased TTL to allow more time for log inspection

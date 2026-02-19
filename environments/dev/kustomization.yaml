@@ -5,6 +5,8 @@ resources:
 - ../../base/backend
 - ../../base/mlflow
 - ../../base/frontend
+- ../../base/training-job
+- ../../base/monitoring-job
 
 namespace: dev
 
