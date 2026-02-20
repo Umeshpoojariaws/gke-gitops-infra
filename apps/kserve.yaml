@@ -12,7 +12,7 @@ spec:
     # --- Wave -1: Install CRDs and Cluster Resources ---
     # This source points to a kustomization file within this same Git repository.
     # ArgoCD will sync this first, wait for it to be healthy, then proceed to the next wave.
-    - path: apps/kserve-crds
+    - path: apps/kserve-crd
       # The repoURL and targetRevision are omitted to use the same git repo
       # where this Application manifest is defined.
       kustomize: {}
