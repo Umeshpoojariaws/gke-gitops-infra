@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kserve
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  # Using multiple sources with sync waves to ensure CRDs are installed first.
+  sources:
+    # --- Wave -1: Install CRDs and Cluster Resources ---
+    # This source points to a kustomization file within this same Git repository.
+    # ArgoCD will sync this first, wait for it to be healthy, then proceed to the next wave.
+    - path: apps/kserve-crds
+      # The repoURL and targetRevision are omitted to use the same git repo
+      # where this Application manifest is defined.
+      kustomize: {}
+    # --- Wave 0: Install the KServe Helm Chart ---
+    - repoURL: 'oci://ghcr.io/kserve/charts'
+      targetRevision: v0.15.0
+      chart: kserve
+      helm:
+        releaseName: kserve
+        parameters:
+          - name: kserve.controller.deploymentMode
+            value: RawDeployment
+          - name: kserve.controller.gateway.disableIngressCreation
+            value: "true"
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: kserve
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - RespectIgnoreDifferences=true

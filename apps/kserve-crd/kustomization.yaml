@@ -1,0 +1,5 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # This tells Kustomize to simply apply the raw manifest from this URL.
+  - https://github.com/kserve/kserve/releases/download/v0.15.0/kserve-cluster-resources.yaml
