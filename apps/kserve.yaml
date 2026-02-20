@@ -12,9 +12,10 @@ spec:
     # --- Wave -1: Install CRDs and Cluster Resources ---
     # This source points to a kustomization file within this same Git repository.
     # ArgoCD will sync this first, wait for it to be healthy, then proceed to the next wave.
-    - path: apps/kserve-crd
-      # The repoURL and targetRevision are omitted to use the same git repo
-      # where this Application manifest is defined.
+    - repoURL: 'https://github.com/Umeshpoojariaws/gke-gitops-infra.git'
+      targetRevision: HEAD
+      path: apps/kserve-crd
+      # The repoURL and targetRevision are now explicitly defined.
       kustomize: {}
     # --- Wave 0: Install the KServe Helm Chart ---
     - repoURL: 'oci://ghcr.io/kserve/charts'
