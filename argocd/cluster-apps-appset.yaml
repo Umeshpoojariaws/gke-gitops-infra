@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-apps
+  namespace: argocd
+spec:
+  generators:
+    # This generator finds all .yaml files in the specified directory
+    - git:
+        repoURL: https://github.com/Umeshpoojariaws/gke-gitops-infra.git
+        revision: HEAD
+        files:
+          - path: "apps/*.yaml"
+  template:
+    metadata:
+      # The name of the ArgoCD Application will be the filename without the .yaml extension
+      name: '{{path.basenameNormalized}}'
+      namespace: argocd
+    spec:
+      project: default
+      # The source for the Application is the file found by the generator
+      source:
+        repoURL: https://github.com/Umeshpoojariaws/gke-gitops-infra.git
+        targetRevision: HEAD
+        path: '{{path}}' # This uses the full path to the file
+      destination:
+        server: 'https://kubernetes.default.svc'
+        # The namespace is inferred from the Application manifest itself
+        namespace: '' # This will be overridden by the destination namespace in the app yaml
