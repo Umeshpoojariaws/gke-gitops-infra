@@ -38,3 +38,11 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - RespectIgnoreDifferences=true
+  # This block resolves the "RepeatedResourceWarning". It tells ArgoCD to ignore
+  # the specified resources if they are defined in multiple sources, allowing the
+  # Helm chart to be the source of truth.
+  ignoreDifferences:
+    - group: serving.kserve.io
+      kind: ClusterServingRuntime
+    - group: serving.kserve.io
+      kind: ClusterStorageContainer
