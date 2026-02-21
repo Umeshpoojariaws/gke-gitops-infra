@@ -17,3 +17,12 @@ patches:
       group: serving.kserve.io
       version: v1alpha1
       kind: ClusterServingRuntime
+  - patch: |-
+      - op: add
+        path: /metadata/annotations
+        value:
+          argocd.argoproj.io/sync-options: SkipDryRun=true
+    target:
+      group: serving.kserve.io
+      version: v1alpha1
+      kind: ClusterStorageContainer
