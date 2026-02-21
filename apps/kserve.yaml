@@ -28,32 +28,9 @@ spec:
             value: RawDeployment
           - name: kserve.controller.gateway.disableIngressCreation
             value: "true"
-          # Add these to disable default runtimes and storage
-          - name: kserve-resources.huggingfaceserver.disabled
-            value: "true"
-          - name: kserve-resources.huggingfaceserver-multinode.disabled
-            value: "true"
-          - name: kserve-resources.lgbserver.disabled
-            value: "true"
-          - name: kserve-resources.mlserver.disabled
-            value: "true"
-          - name: kserve-resources.paddleserver.disabled
-            value: "true"
-          - name: kserve-resources.pmmlserver.disabled
-            value: "true"
-          - name: kserve-resources.sklearnserver.disabled
-            value: "true"
-          - name: kserve-resources.tensorflow-serving.disabled
-            value: "true"
-          - name: kserve-resources.torchserve.disabled
-            value: "true"
-          - name: kserve-resources.tritonserver.disabled
-            value: "true"
-          - name: kserve-resources.xgbserver.disabled
-            value: "true"
-          # Disable default storage container if supported (adjust name if needed)
-          - name: kserve-resources.storageContainers.default.disabled
-            value: "true"
+          # Disable the subchart that installs all default resources
+          - name: kserve-resources.enabled
+            value: "false"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: kserve
