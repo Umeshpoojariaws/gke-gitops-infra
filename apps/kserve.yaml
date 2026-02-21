@@ -18,7 +18,7 @@ spec:
       # The repoURL and targetRevision are now explicitly defined.
       kustomize: {}
     # --- Wave 0: Install the KServe Helm Chart ---
-    - repoURL: 'oci://ghcr.io/kserve/charts'
+    - repoURL: 'ghcr.io/kserve/charts'
       targetRevision: v0.15.0
       chart: kserve
       helm:
